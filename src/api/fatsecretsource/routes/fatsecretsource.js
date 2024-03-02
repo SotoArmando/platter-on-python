@@ -10,5 +10,15 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "GET",
+      path: "/resize/:imagefile",
+      handler: "fatsecretsource.resizer",
+      config: {
+        policies: [],
+        middlewares: [],
+        auth: false,
+      },
+    },
   ],
 };

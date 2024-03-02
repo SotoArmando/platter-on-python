@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipe_shoppings",
+  "info": {
+    "singularName": "recipe-shopping",
+    "pluralName": "recipe-shoppings",
+    "displayName": "RecipeShopping",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "recipeId": {
+      "type": "string"
+    },
+    "users": {
+      "type": "blocks"
+    },
+    "active": {
+      "type": "boolean"
+    }
+  }
+}

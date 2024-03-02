@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "register_tokens",
+  "info": {
+    "singularName": "register-token",
+    "pluralName": "register-tokens",
+    "displayName": "RegisterToken"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Token": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "Valid": {
+      "type": "boolean"
+    }
+  }
+}

@@ -832,6 +832,135 @@ export interface PluginEmailDesignerEmailTemplate
   };
 }
 
+export interface ApiDocumentationDocumentation extends Schema.CollectionType {
+  collectionName: 'documentations';
+  info: {
+    singularName: 'documentation';
+    pluralName: 'documentations';
+    displayName: 'Documentation';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Task: Attribute.Text;
+    MediaFiles: Attribute.Media;
+    PostDate: Attribute.DateTime;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::documentation.documentation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::documentation.documentation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRecipeLikeRecipeLike extends Schema.CollectionType {
+  collectionName: 'recipe_likes';
+  info: {
+    singularName: 'recipe-like';
+    pluralName: 'recipe-likes';
+    displayName: 'RecipeLike';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    active: Attribute.Boolean;
+    recipeId: Attribute.String;
+    users: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::recipe-like.recipe-like',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::recipe-like.recipe-like',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRecipeShoppingRecipeShopping extends Schema.CollectionType {
+  collectionName: 'recipe_shoppings';
+  info: {
+    singularName: 'recipe-shopping';
+    pluralName: 'recipe-shoppings';
+    displayName: 'RecipeShopping';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    recipeId: Attribute.String;
+    users: Attribute.Blocks;
+    active: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::recipe-shopping.recipe-shopping',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::recipe-shopping.recipe-shopping',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRegisterTokenRegisterToken extends Schema.CollectionType {
+  collectionName: 'register_tokens';
+  info: {
+    singularName: 'register-token';
+    pluralName: 'register-tokens';
+    displayName: 'RegisterToken';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Token: Attribute.String;
+    Email: Attribute.String;
+    Valid: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::register-token.register-token',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::register-token.register-token',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -851,6 +980,10 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::email-designer.email-template': PluginEmailDesignerEmailTemplate;
+      'api::documentation.documentation': ApiDocumentationDocumentation;
+      'api::recipe-like.recipe-like': ApiRecipeLikeRecipeLike;
+      'api::recipe-shopping.recipe-shopping': ApiRecipeShoppingRecipeShopping;
+      'api::register-token.register-token': ApiRegisterTokenRegisterToken;
     }
   }
 }
