@@ -3,7 +3,7 @@ module.exports = {
     {
       method: "GET",
       path: "/fatsecretsource/:method",
-      handler: "fatsecretsource.exampleAction",
+      handler: "fatsecretsource.consumer",
       config: {
         policies: [],
         middlewares: [],

@@ -15,11 +15,14 @@
     "recipeId": {
       "type": "string"
     },
-    "users": {
-      "type": "blocks"
-    },
     "active": {
       "type": "boolean"
+    },
+    "users": {
+      "type": "json"
+    },
+    "shoppingitems": {
+      "type": "json"
     }
   }
 }

@@ -52,7 +52,7 @@ module.exports = {
 
         const { id } = result;
 
-        strapi.log.debug(Object.entries(result), Object.entries(params));
+        // strapi.log.debug(Object.entries(result), Object.entries(params));
 
         const domain =
           "https://76c1-186-120-37-14.ngrok-free.app/uploads/image-6.png";

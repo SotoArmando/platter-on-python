@@ -9,9 +9,9 @@ const request = require("request"),
   gm = require("gm");
 const axios = setupCache(instance, {
   methods: ["get", "post"],
-  debug: (objet) => {
-    strapi.log.debug(objet);
-  },
+  // debug: (objet) => {
+  //   strapi.log.debug(objet);
+  // },
 });
 
 const APIErrorCode = {
@@ -83,18 +83,19 @@ class BaseClient {
 
     axios.interceptors.response.use(async (response) => {
       const originalRequest = response.config;
+      
       const responseError = response.data.error;
 
-      if (responseError) {
+      if (responseError || (response.status >= 500)) {
         if (
           [
             APIErrorCode.INVALID_TOKEN,
             APIErrorCode.MISSING_OAUTH_PARAMETERS,
           ].includes(responseError.code)
         ) {
-          // originalRequest._retry = true;
+
           await this.refreshToken();
-          // return this.axios.request(originalRequest);
+          return axios.request(originalRequest);
         }
         throw responseError;
       }
@@ -124,7 +125,7 @@ class BaseClient {
   }
 
   async doRequest(method, params) {
-    strapi.log.debug(Object.entries(axios.interceptors));
+    // strapi.log.debug(Object.entries(axios.interceptors));
     return axios.post(
       this.API_URL,
       {},
@@ -153,7 +154,7 @@ const client = new BaseClient({
 client.refreshToken();
 
 module.exports = {
-  exampleAction: async (ctx, next) => {
+  consumer: async (ctx, next) => {
     const method =
       (ctx.params.method && ctx.params.method) || "recipes.search.v3";
 
@@ -169,12 +170,16 @@ module.exports = {
   },
   resizer: async (ctx, next) => {
     const { url, width, height } = ctx.query;
-    const resizedimage = await gm(
-      request(
-        url ||
-          "https://images.pexels.com/photos/20191000/pexels-photo-20191000/free-photo-of-madera-vacaciones-arte-verano.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-      )
-    ).resize(width, height);
+    let res = await axios.get(
+      url ||
+      "https://images.pexels.com/photos/20191000/pexels-photo-20191000/free-photo-of-madera-vacaciones-arte-verano.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      {
+        responseType: "arraybuffer",
+        decompress: true,
+      }
+    );
+    let buf = Buffer.from(res.data, "base64");
+    const resizedimage = await gm(buf, "image.jpg").resize(width, height);
 
     ctx.body = await new Promise(async (resolveOuter) => {
       await resizedimage.toBuffer("PNG", (err, buffer) => {

@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipe_comments",
+  "info": {
+    "singularName": "recipe-comment",
+    "pluralName": "recipe-comments",
+    "displayName": "RecipeComment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "users": {
+      "type": "json"
+    },
+    "recipeId": {
+      "type": "string"
+    },
+    "recipe": {
+      "type": "json"
+    },
+    "active": {
+      "type": "boolean"
+    }
+  }
+}

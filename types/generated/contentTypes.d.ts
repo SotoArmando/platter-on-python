@@ -864,12 +864,81 @@ export interface ApiDocumentationDocumentation extends Schema.CollectionType {
   };
 }
 
+export interface ApiRecipeCommentRecipeComment extends Schema.CollectionType {
+  collectionName: 'recipe_comments';
+  info: {
+    singularName: 'recipe-comment';
+    pluralName: 'recipe-comments';
+    displayName: 'RecipeComment';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    users: Attribute.JSON;
+    recipeId: Attribute.String;
+    recipe: Attribute.JSON;
+    active: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::recipe-comment.recipe-comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::recipe-comment.recipe-comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRecipeCommentSubsectionRecipeCommentSubsection
+  extends Schema.CollectionType {
+  collectionName: 'recipe_comment_subsections';
+  info: {
+    singularName: 'recipe-comment-subsection';
+    pluralName: 'recipe-comment-subsections';
+    displayName: 'RecipeCommentSubsection';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    recipeCommentId: Attribute.String;
+    users: Attribute.JSON;
+    active: Attribute.Boolean;
+    recipeComment: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::recipe-comment-subsection.recipe-comment-subsection',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::recipe-comment-subsection.recipe-comment-subsection',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiRecipeLikeRecipeLike extends Schema.CollectionType {
   collectionName: 'recipe_likes';
   info: {
     singularName: 'recipe-like';
     pluralName: 'recipe-likes';
     displayName: 'RecipeLike';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -878,6 +947,7 @@ export interface ApiRecipeLikeRecipeLike extends Schema.CollectionType {
     active: Attribute.Boolean;
     recipeId: Attribute.String;
     users: Attribute.JSON;
+    recipe: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -909,8 +979,9 @@ export interface ApiRecipeShoppingRecipeShopping extends Schema.CollectionType {
   };
   attributes: {
     recipeId: Attribute.String;
-    users: Attribute.Blocks;
     active: Attribute.Boolean;
+    users: Attribute.JSON;
+    shoppingitems: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -981,6 +1052,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::email-designer.email-template': PluginEmailDesignerEmailTemplate;
       'api::documentation.documentation': ApiDocumentationDocumentation;
+      'api::recipe-comment.recipe-comment': ApiRecipeCommentRecipeComment;
+      'api::recipe-comment-subsection.recipe-comment-subsection': ApiRecipeCommentSubsectionRecipeCommentSubsection;
       'api::recipe-like.recipe-like': ApiRecipeLikeRecipeLike;
       'api::recipe-shopping.recipe-shopping': ApiRecipeShoppingRecipeShopping;
       'api::register-token.register-token': ApiRegisterTokenRegisterToken;

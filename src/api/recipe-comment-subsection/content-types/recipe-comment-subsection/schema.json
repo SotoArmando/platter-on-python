@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipe_comment_subsections",
+  "info": {
+    "singularName": "recipe-comment-subsection",
+    "pluralName": "recipe-comment-subsections",
+    "displayName": "RecipeCommentSubsection"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "recipeCommentId": {
+      "type": "string"
+    },
+    "users": {
+      "type": "json"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "recipeComment": {
+      "type": "json"
+    }
+  }
+}

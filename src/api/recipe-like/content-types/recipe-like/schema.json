@@ -4,7 +4,8 @@
   "info": {
     "singularName": "recipe-like",
     "pluralName": "recipe-likes",
-    "displayName": "RecipeLike"
+    "displayName": "RecipeLike",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,6 +19,9 @@
       "type": "string"
     },
     "users": {
+      "type": "json"
+    },
+    "recipe": {
       "type": "json"
     }
   }
