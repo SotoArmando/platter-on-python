@@ -11,5 +11,13 @@ module.exports = ({ env }) => ({
         domain: "sotoarmando.dev",
       },
     },
+    
+  },
+  "users-permissions": {
+    config: {
+      register: {
+        allowedFields: ["username", "email", "password"],
+      },
+    },
   },
 });
