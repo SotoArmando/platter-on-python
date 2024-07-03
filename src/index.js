@@ -55,7 +55,7 @@ module.exports = {
         // strapi.log.debug(Object.entries(result), Object.entries(params));
 
         const domain =
-          "https://76c1-186-120-37-14.ngrok-free.app/uploads/image-6.png";
+          "https://stable-dogs-011321cd96.strapiapp.com";
         const token = identifier(6);
         try {
           const emailTemplate2 = fs
@@ -82,9 +82,9 @@ module.exports = {
           );
 
           await resend.emails.send({
-            from: "Platter developers <platter@sotoarmando.dev>",
+            from: "Platter Kitchen Tools <platter@sotoarmando.dev>",
             to: [email],
-            subject: `Welcome ${username}`,
+            subject: `Welcome to Platter: get on board!`,
             text: emailTemplate2,
             html: emailTemplate2,
             // attachments: [
