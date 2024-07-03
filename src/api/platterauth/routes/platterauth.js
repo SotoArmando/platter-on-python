@@ -102,6 +102,16 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/platterauth/affiliateContent/:name",
+      handler: "platterauth.affiliateContent",
+      config: {
+        policies: [],
+        middlewares: [],
+        auth: false,
+      },
+    },
+    {
+      method: "GET",
       path: "/platterauth/amazondetail/:asin",
       handler: "platterauth.amazonDetail",
       config: {
@@ -111,8 +121,8 @@ module.exports = {
       },
     },
     {
-      method: "GET",
-      path: "/platterauth/productrecomendations/:recipedata",
+      method: "POST",
+      path: "/platterauth/productrecomendations",
       handler: "platterauth.productRecomendations",
       config: {
         policies: [],

@@ -5,7 +5,7 @@
  */
 // function getName(line) { return [...line.matchAll(/\((.*?)\)/g)][0][1]; }
 // y.reduce((p, v ,c) => ({...p, [getName(v)]: v }), {})
-
+const unparsed = require('koa-body/unparsed.js');
 const amazonScraper = require('amazon-buddy');
 const { OpenAI } = require('openai');
 const essentialKitchenItemsFileIndex = {
@@ -260,6 +260,109 @@ const servingWareFileIndex = {
 };
 const servingWare = Object.keys(servingWareFileIndex);
 
+const appAffiliateCarpet = {
+  "tasty_books": [
+    {
+       "image":"https://m.media-amazon.com/images/I/91z369mInPL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Ultimate: How to Cook Basically Anything (An Official Tasty Cookbook)",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07CR2S41Y?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91H94PHp9mL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Latest and Greatest: Everything You Want to Cook Right Now (An Official Tasty...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B076Z11D6F?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91FhhnUEDPL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Pride: 75 Recipes and Stories from the Queer Food Community",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B081929JQL?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/A1sspqUzDqL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Every Day: All of the Flavor, None of the Fuss (An Official Tasty Cookbook)",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07PZ4G58T?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91y-pjTcyTL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Dessert: All the Sweet You Can Eat (An Official Tasty Cookbook)",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07KDXF2SS?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/81e1dnKHKyL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Adulting: All Your Faves, All Grown Up: A Cookbook",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B085ZZKGZR?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91ax3l7SnaS._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Over the Top: High Drama, Low Maintenance: A Cookbook",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B08YNDBZVB?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/916ihoR+heL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Total Comfort: Cozy Recipes with a Modern Touch: An Official Tasty Cookbook",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B09SL2YQJV?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91eQrieTUNL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty (Cocina) (Spanish Edition)",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B089PVDLYP?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/A13BSWsBtUL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty: Das Original - Genial einfach kochen mit den beliebtesten Tasty-Rezepten - Mit...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07C3QGFP2?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91CXj3WLujL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty over the top: 75 übertrieben gute Rezepte - bunter und besser denn je!...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B0BMGG7FQC?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/91g8rzJwgDL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Pride - Das Original: 75 Rezepte und Geschichten aus der Queer Food...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B08MCB46Y5?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/A13stKoH9lL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Das Original - Die geniale Jeden-Tag-Küche: Mit Rezepten von \"einfach TASTY\"...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B086TWPZN1?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/81GrJ7cJlwL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Sweets: Das Original - Köstliche Kuchen, Tartes &amp; Desserts - Mit Rezepten...",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07QM6QHJH?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/917-cCZMnKL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Ultimativ Tasty: Das Original - Über 160 einfach geniale Rezepte (German Edition)",
+       "url":"https://www.amazon.com/Tasty-ebook/dp/B07K25MMWF?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/71wxkJGYqNL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty One Top: 75 Recipes to Sous Vide, Stir-Fry, Simmer, and Slow Cook with Your...",
+       "url":"https://www.amazon.com/Tasty/dp/0525575847?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/814VP3Wx8mL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Kookboek: Alles wat je nu wilt maken (Dutch Edition)",
+       "url":"https://www.amazon.com/Tasty/dp/9021571552?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/71hDuc-NL5L._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"tasty latest and greatest everything you want to cook right now [hardcover] and tasty &amp;...",
+       "url":"https://www.amazon.com/Tasty/dp/9123648082?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    },
+    {
+       "image":"https://m.media-amazon.com/images/I/918VHXt7sQL._AC_CR0%2C0%2C0%2C0_SY315_.jpg",
+       "title":"Tasty Kochschule; Alle Basics plus 75 genial einfache Rezepte; Hrsg. v. Tasty; Deutsch;...",
+       "url":"https://www.amazon.com/author/dp/3517100315?ref_=ast_author_dp&dib=eyJ2IjoiMSJ9.F3HsqSMtpJeutiN4IeqpJV4YDRO8sd6IfAMvuyU5BzHrfs_OPVQrwKKB18YvXLmleFTEyEBpEd8ZfKW4sTnaANF6VOiosUr5MKUKUOXrIj0T5OZg3SPsmiFvmprKwyGwD1BVzW0XqrZwRrtTvQ2JBNbecOqciW4j4gjMUUaepw4qxU5crBoEG94jVt0avwoO3yZqR4E1edNuOG2WeZqGz9qZzic5cccJ2LLQiItmr7Q.-xUSjQiixFE_-t6-MS8pwA1WC6ZOYojIVnlJtjqU5IQ&dib_tag=AUTHOR"
+    }
+ ]
+ 
+}
+
+
+
 const openai = new OpenAI({
   apiKey: process.env['OPENAI_SECRET'], // This is the default and can be omitted
 });
@@ -497,8 +600,26 @@ module.exports = {
         },
       }
     );
+    strapi.log.debug(Object.keys(entries));
+    var usernames = [];
+    let x = entries[0];
+    let u = Object.values(x.users);
+    function onlyUnique(value, index, array) {
+      return array.indexOf(value) === index;
+    }
+    var ids = u.reduce((p,c) => [...p, c.split(":")[1]], []).filter(onlyUnique);
+    const users = await strapi.query('plugin::users-permissions.user').findMany({
+      where: { id: { $in: ids } },
+      select: ['username', 'id'], // Select only the username field
+    });
 
-    ctx.body = entries;
+     usernames = users.map(user => ({[user.id]: user.username}));
+    strapi.log.debug(JSON.stringify(usernames));
+    strapi.log.debug(JSON.stringify(entries));
+    // for (let x in entries) {
+    //  
+    // };
+    ctx.body = [{...entries[0],"usernames":usernames.reduce((e ,c) => ({ ...e, ...c}),{})}];
   },
   recipeLike: async (ctx, next) => {
     // CREATE AND UPDATE
@@ -678,10 +799,19 @@ module.exports = {
     const details = await amazonScraper.asin({ asin: asin });
     ctx.body = details;
   },
+  affiliateContent: async (ctx, next) => {
+    const { name } = ctx.params;
+    ctx.body = appAffiliateCarpet[name];
+  },
   productRecomendations: async (ctx, next) => {
     // FETCH
     // productRecomendations/{recipedata}
-    const { recipedata = "" } = ctx.params;
+    strapi.log.debug("ctx.request.body");
+    strapi.log.debug(ctx.request.body);
+
+    const recipedata  = ctx.request.body || "";
+    
+
     const recipe = JSON.parse(recipedata);
     const text = `What are some essential kitchen items you need for this? could you use essentialKitchenItems as key for them.`;
     const text1 = `What are some servingware items related to this? could you use servingWare as key for them. could you return them as List of Strings.`;
@@ -739,5 +869,5 @@ module.exports = {
 
     // ctx.body = response;
     // cache.set(recipe.recipe_id, message, {ttl: threemonthsduration})
-  }
+  },
 };
