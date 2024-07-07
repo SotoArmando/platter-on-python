@@ -6,7 +6,7 @@ module.exports = {
       handler: "fatsecretsource.consumer",
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ['api::fatsecretsource.default'],
         auth: false,
       },
     },
@@ -16,7 +16,7 @@ module.exports = {
       handler: "fatsecretsource.resizer",
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ['api::fatsecretsource.default'],
         auth: false,
       },
     },
